@@ -1,0 +1,75 @@
+# Build results
+bin/
+obj/
+[Bb]uild/
+[Ll]og/
+[Ll]ogs/
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Visual Studio cache and temp files
+.vs/
+*.vscode/
+.vscode/*
+!*.vscode/settings.json
+!*.vscode/tasks.json
+!*.vscode/launch.json
+
+# Generated files
+*.dll
+*.exe
+*.pdb
+*.cache
+*.dbmdl
+*.bak
+
+# NuGet packages
+*.nupkg
+# Uncomment if you have local NuGet packages
+# *.snupkg
+packages/
+**/packages/*
+!**/packages/build/
+.nuget/
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# Entity Framework Migrations logs
+*.jfm
+
+# Rider / JetBrains
+.idea/
+*.sln.iml
+
+# DotCover
+*.dotCover
+
+# Logs and database
+*.log
+*.sqlite
+*.db
+*.mdf
+*.ldf
+
+# Temporary files
+*.tmp
+*.temp
+
+# Publish output
+publish/
+wwwroot/lib/
+dist/
+
+# Secret and config files
+appsettings.*.json
+!appsettings.json  # Keep the base file but ignore environment-specific ones
+secrets.json
+
+# OS-specific
+.DS_Store
+Thumbs.db
