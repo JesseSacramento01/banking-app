@@ -66,7 +66,7 @@ wwwroot/lib/
 dist/
 
 # Secret and config files
-appsettings.*.json
+appsettings.json
 !appsettings.json  # Keep the base file but ignore environment-specific ones
 secrets.json
 
