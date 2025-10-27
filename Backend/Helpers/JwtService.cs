@@ -9,7 +9,7 @@ using Backend.Models;
 namespace Backend.Helpers;
 
 
-class JwtService
+public class JwtService
 {
     private readonly IConfiguration _config;
 
