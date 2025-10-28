@@ -4,6 +4,7 @@ using Backend.Data;
 using Backend.Models;
 using Backend.Helpers;
 using BCrypt.Net;
+using Backend.DTOs;
 
 namespace Backend.Controllers;
 
@@ -21,22 +22,56 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register([FromBody] User request)
+    public async Task<IActionResult> Register([FromBody] RegisterRequest request)
     {
+
+        if (string.IsNullOrEmpty(request.Email) || string.IsNullOrEmpty(request.Password))
+            return BadRequest("Email and password are required");
+
         if (await _context.Users.AnyAsync(u => u.Email == request.Email))
             return BadRequest("Email already registered");
+
+
+        string passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
 
         var user = new User
         {
             FullName = request.FullName,
             Email = request.Email,
-            PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.PasswordHash)
+            PasswordHash = passwordHash
         };
 
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
 
-        return Ok("User registered successfully");
+
+        // create a default bank account for the user
+        var account = new Account
+        {
+            UserId = user.Id,
+            AccountNumber = GenerateAccountNumber(),
+            Balance = 0
+        };
+
+        _context.Accounts.Add(account);
+        await _context.SaveChangesAsync();
+
+        // Optional: simple account number generator
+
+
+        return Ok(new
+        {
+            message = "User registered successfully",
+            userId = user.Id,
+            accountNumber = account.AccountNumber
+        });
+    }
+
+    private string GenerateAccountNumber()
+    {
+
+        var random = new Random();
+        return "PT50-" + random.Next(10000000, 99999999);
     }
 
     [HttpPost("login")]
@@ -50,7 +85,6 @@ public class AuthController : ControllerBase
         var token = _jwt.GenerateToken(user);
         return Ok(new { token });
     }
-
 
 }
 

@@ -18,12 +18,15 @@ public class BankingContext : DbContext
         modelBuilder.Entity<User>()
         .HasMany(u => u.Accounts)
         .WithOne(a => a.User)
-        .HasForeignKey(a => a.UserId);
+        .HasForeignKey(a => a.UserId)
+        .OnDelete(DeleteBehavior.Cascade);
+        
 
         modelBuilder.Entity<Account>()
         .HasMany(a => a.Transactions)
         .WithOne(t => t.Account)
-        .HasForeignKey(t => t.AccountId);
+        .HasForeignKey(t => t.AccountId)
+        .OnDelete(DeleteBehavior.Cascade);
     }
 
 
