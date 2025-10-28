@@ -11,5 +11,5 @@ public class Account {
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     public User? User { get; set; }
-    public ICollection<Transaction>? Transactions { get; set; }
+    public ICollection<Transaction>? Transactions { get; set; } = [];
 }

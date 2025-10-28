@@ -5,6 +5,7 @@ using Backend.Models;
 using Backend.Helpers;
 using BCrypt.Net;
 using Backend.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Backend.Controllers;
 
@@ -85,6 +86,29 @@ public class AuthController : ControllerBase
         var token = _jwt.GenerateToken(user);
         return Ok(new { token });
     }
+
+    [Authorize]
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteUser(Guid id)
+    {
+        var user = await _context.Users
+            .Include(u => u.Accounts)
+            .ThenInclude(a => a.Transactions)
+            .FirstOrDefaultAsync(u => u.Id == id);
+
+        if (user == null)
+            return NotFound("User not found");
+
+        _context.Users.Remove(user);
+        await _context.SaveChangesAsync();
+
+        return Ok(new { message = "User and related accounts deleted successfully" });
+
+    }
+
+
+
+
 
 }
 
